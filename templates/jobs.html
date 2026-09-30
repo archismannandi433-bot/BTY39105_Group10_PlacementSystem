@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Job Openings & Eligibility Application</h2>
+
+<div class="row">
+    {% for job in jobs %}
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ job.job_title }} - <span class="text-primary">{{ job.company_name }}</span></h5>
+                <p class="card-text">
+                    <strong>Package:</strong> ₹{{ job.package_lpa }} LPA<br>
+                    <strong>Min CGPA Required:</strong> {{ job.min_cgpa }}<br>
+                    <strong>Max Backlogs Allowed:</strong> {{ job.max_backlogs_allowed }}
+                </p>
+                <form action="/apply" method="POST" class="d-flex gap-2">
+                    <input type="hidden" name="job_id" value="{{ job.job_id }}">
+                    <select name="student_id" class="form-select" required>
+                        <option value="">Select Student to Apply</option>
+                        {% for student in students %}
+                        <option value="{{ student.student_id }}">{{ student.name }} ({{ student.student_code }})</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-success">Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

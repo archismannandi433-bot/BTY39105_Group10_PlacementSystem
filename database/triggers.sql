@@ -1,0 +1,8 @@
+CREATE TRIGGER trg_auto_offer_status
+AFTER INSERT ON OFFER
+FOR EACH ROW
+BEGIN
+    UPDATE APPLICATION 
+    SET status = 'OFFERED' 
+    WHERE app_id = NEW.app_id;
+END;

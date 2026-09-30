@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">Placement Overview</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Students</h5><h3 class="text-primary">{{ students }}</h3></div></div>
+    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Companies</h5><h3 class="text-success">{{ companies }}</h3></div></div>
+    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Active Drives</h5><h3 class="text-warning">{{ jobs }}</h3></div></div>
+    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Total Offers</h5><h3 class="text-info">{{ offers }}</h3></div></div>
+</div>
+
+<h4 class="mb-3">Placed Students Report</h4>
+<table class="table table-striped bg-white shadow-sm">
+    <thead class="table-dark">
+        <tr><th>Student Code</th><th>Name</th><th>Company</th><th>Job Role</th><th>Package (LPA)</th></tr>
+    </thead>
+    <tbody>
+        {% for row in placed_list %}
+        <tr>
+            <td>{{ row.student_code }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.company_name }}</td>
+            <td>{{ row.job_title }}</td>
+            <td>₹{{ row.offered_salary_lpa }} LPA</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
