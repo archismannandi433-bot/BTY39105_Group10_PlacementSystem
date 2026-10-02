@@ -1,61 +1,77 @@
 /* ====================
-   Apple UI Hover Zoom & Bounce Animations
+   Apple UI Hover Zoom
    ==================== */
 .apple-nav-link {
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
     display: inline-block;
     position: relative;
+    text-decoration: none;
 }
 
 .apple-nav-link:hover {
-    transform: scale(1.18);
+    transform: scale(1.15);
 }
 
-@keyframes appleBounceDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-25px) scaleY(0.96);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(8px) scaleY(1.01);
-    }
-    80% {
-        transform: translateY(-3px) scaleY(0.995);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scaleY(1);
-    }
-}
-
-.page-bounce-container {
-    animation: appleBounceDown 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    transform-origin: top center;
+/* Active tab highlight */
+.apple-nav-link.active {
+    font-weight: 700 !important;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
 }
 
 /* ====================
-   Page Theme Backgrounds
+   Tab-Anchored Zoom Transitions
    ==================== */
-/* Dashboard: Dark Purple */
+.page-zoom-enter {
+    animation: zoomInFromTab 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards;
+}
+
+.page-zoom-exit {
+    animation: zoomOutToTab 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+@keyframes zoomInFromTab {
+    0% {
+        opacity: 0;
+        transform: scale(0.1);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomOutToTab {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.08);
+    }
+}
+
+/* Theme Backgrounds */
 body.theme-dashboard {
     background: radial-gradient(circle at top, #2b1055 0%, #17072b 70%, #0d031a 100%) !important;
     color: #ffffff !important;
 }
 
-/* Student Directory: Cosmic Black */
 body.theme-students {
     background: radial-gradient(circle at top, #151821 0%, #090a0f 70%, #000000 100%) !important;
     color: #ffffff !important;
 }
 
-/* Jobs & Applications: Dark Nebula Blue */
 body.theme-jobs {
     background: radial-gradient(circle at top, #0d253f 0%, #07162c 70%, #020914 100%) !important;
     color: #ffffff !important;
 }
 
-/* Nav bar styling */
+/* Nav & Container Styles */
 .glass-nav-dark {
     background: rgba(15, 15, 25, 0.5) !important;
     backdrop-filter: blur(20px);
@@ -63,9 +79,6 @@ body.theme-jobs {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* ====================
-   Fully Transparent Containers
-   ==================== */
 .glass-card-transparent {
     background: rgba(255, 255, 255, 0.04) !important;
     backdrop-filter: blur(16px);
@@ -75,14 +88,10 @@ body.theme-jobs {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* ====================
-   Transparent Table Overrides (Fixes White Box Issue)
-   ==================== */
 .table-transparent {
     --bs-table-bg: transparent !important;
     --bs-table-accent-bg: transparent !important;
     --bs-table-striped-bg: transparent !important;
-    --bs-table-active-bg: transparent !important;
     --bs-table-hover-bg: rgba(255, 255, 255, 0.05) !important;
     --bs-table-color: #ffffff !important;
     background-color: transparent !important;
@@ -104,7 +113,6 @@ body.theme-jobs {
     letter-spacing: 0.8px;
 }
 
-/* Form Dropdown Styling for Dark Themes */
 .dark-select {
     background-color: rgba(0, 0, 0, 0.4) !important;
     color: #ffffff !important;

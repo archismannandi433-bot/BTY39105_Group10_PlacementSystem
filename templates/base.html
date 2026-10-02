@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Placement Portal (G10)</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Base CSS & Glass Animations -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
 </head>
@@ -14,32 +12,91 @@
     <!-- Glass Navbar -->
     <nav class="navbar navbar-expand-lg glass-nav-dark sticky-top mb-4">
         <div class="container">
-            <a class="navbar-brand fw-bold text-light apple-nav-link" href="{{ url_for('dashboard') }}">Placement Portal (G10)</a>
+            <a class="navbar-brand fw-bold text-light apple-nav-link" href="{{ url_for('dashboard') }}" data-tab-id="dashboard">Placement Portal (G10)</a>
             <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-2">
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-medium apple-nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <a class="nav-link text-light fw-medium apple-nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}" data-tab-id="dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-medium apple-nav-link" href="{{ url_for('students') }}">Students Directory</a>
+                        <a class="nav-link text-light fw-medium apple-nav-link {% if request.endpoint == 'students' %}active{% endif %}" href="{{ url_for('students') }}" data-tab-id="students">Students Directory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-medium apple-nav-link" href="{{ url_for('jobs') }}">Jobs & Applications</a>
+                        <a class="nav-link text-light fw-medium apple-nav-link {% if request.endpoint == 'jobs' %}active{% endif %}" href="{{ url_for('jobs') }}" data-tab-id="jobs">Jobs & Applications</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Container with Bounce Down Effect -->
-    <main class="container py-2 page-bounce-container">
+    <!-- Main Content Container -->
+    <main id="mainContainer" class="container py-2 page-zoom-enter">
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('mainContainer');
+            const activeTab = document.querySelector('.apple-nav-link.active') || document.querySelector('.navbar-brand');
+            const navLinks = document.querySelectorAll('.apple-nav-link');
+
+            // Function to get center coordinates of an element
+            function getTabCenter(element) {
+                if (!element) return { x: window.innerWidth / 2, y: 50 };
+                const rect = element.getBoundingClientRect();
+                return {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+            }
+
+            // 1. ENTRANCE: Zoom IN from the target tab text position
+            const targetX = sessionStorage.getItem('targetTabX');
+            const targetY = sessionStorage.getItem('targetTabY');
+
+            if (targetX && targetY) {
+                container.style.transformOrigin = `${targetX}px ${targetY}px`;
+            } else if (activeTab) {
+                const center = getTabCenter(activeTab);
+                container.style.transformOrigin = `${center.x}px ${center.y}px`;
+            }
+
+            // 2. EXIT: On tab click, Zoom OUT into the CURRENT tab text position
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const currentUrl = window.location.pathname;
+                    const targetUrl = new URL(link.href).pathname;
+
+                    // Only animate if changing pages
+                    if (currentUrl !== targetUrl) {
+                        e.preventDefault();
+
+                        // Coordinate A: Current tab text (Where page shrinks INTO)
+                        const currentTabCenter = getTabCenter(activeTab);
+                        container.style.transformOrigin = `${currentTabCenter.x}px ${currentTabCenter.y}px`;
+
+                        // Coordinate B: Target tab text (Where new page grows OUT FROM)
+                        const targetTabCenter = getTabCenter(link);
+                        sessionStorage.setItem('targetTabX', targetTabCenter.x);
+                        sessionStorage.setItem('targetTabY', targetTabCenter.y);
+
+                        // Trigger zoom out exit animation
+                        container.classList.remove('page-zoom-enter');
+                        container.classList.add('page-zoom-exit');
+
+                        // Navigate after exit animation completes
+                        setTimeout(() => {
+                            window.location.href = link.href;
+                        }, 380);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
