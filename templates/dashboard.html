@@ -1,58 +1,60 @@
 {% extends 'base.html' %}
 
+{% block body_class %}theme-dashboard{% endblock %}
+
 {% block content %}
 <div class="row g-4 mb-4">
     <div class="col-md-3">
-        <div class="glass-card p-4 text-center">
-            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Total Students</h6>
-            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_students if total_students is not none else 0 }}</h2>
+        <div class="glass-card-transparent p-4 text-center">
+            <h6 class="text-uppercase text-light opacity-75 fw-semibold small mb-2">Total Students</h6>
+            <h2 class="display-5 fw-bold mb-0 text-white">{{ total_students if total_students is not none else 0 }}</h2>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="glass-card p-4 text-center">
-            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Active Companies</h6>
-            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_companies if total_companies is not none else 0 }}</h2>
+        <div class="glass-card-transparent p-4 text-center">
+            <h6 class="text-uppercase text-light opacity-75 fw-semibold small mb-2">Active Companies</h6>
+            <h2 class="display-5 fw-bold mb-0 text-white">{{ total_companies if total_companies is not none else 0 }}</h2>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="glass-card p-4 text-center">
-            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Placement Drives</h6>
-            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_jobs if total_jobs is not none else 0 }}</h2>
+        <div class="glass-card-transparent p-4 text-center">
+            <h6 class="text-uppercase text-light opacity-75 fw-semibold small mb-2">Placement Drives</h6>
+            <h2 class="display-5 fw-bold mb-0 text-white">{{ total_jobs if total_jobs is not none else 0 }}</h2>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="glass-card p-4 text-center">
-            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Offers Generated</h6>
-            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_offers if total_offers is not none else 0 }}</h2>
+        <div class="glass-card-transparent p-4 text-center">
+            <h6 class="text-uppercase text-light opacity-75 fw-semibold small mb-2">Offers Generated</h6>
+            <h2 class="display-5 fw-bold mb-0 text-white">{{ total_offers if total_offers is not none else 0 }}</h2>
         </div>
     </div>
 </div>
 
-<div class="glass-card p-4">
-    <h4 class="fw-bold mb-3 text-dark">Recent Placement Offers</h4>
+<div class="glass-card-transparent p-4">
+    <h4 class="fw-bold mb-4 text-white">Recent Placement Offers</h4>
     <div class="table-responsive">
-        <table class="table align-middle mb-0">
+        <table class="table table-transparent align-middle mb-0">
             <thead>
                 <tr>
                     <th>Student Name</th>
                     <th>Code</th>
                     <th>Company</th>
                     <th>Role</th>
-                    <th>Package (LPA)</th>
+                    <th>Package</th>
                 </tr>
             </thead>
             <tbody>
                 {% for offer in placed_students %}
                 <tr>
-                    <td class="fw-semibold text-dark">{{ offer.name }}</td>
-                    <td class="text-secondary">{{ offer.student_code }}</td>
-                    <td class="text-dark">{{ offer.company_name }}</td>
-                    <td class="text-dark">{{ offer.role }}</td>
-                    <td><span class="badge bg-success bg-opacity-75">{{ offer.package }} LPA</span></td>
+                    <td class="fw-semibold text-white">{{ offer.name }}</td>
+                    <td><span class="badge bg-light bg-opacity-10 text-white">{{ offer.student_code }}</span></td>
+                    <td class="text-white">{{ offer.company_name }}</td>
+                    <td class="text-light opacity-75">{{ offer.role }}</td>
+                    <td><span class="badge bg-success bg-opacity-75 px-3 py-2">{{ offer.package }} LPA</span></td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="5" class="text-center text-muted py-3">No placement offers recorded yet.</td>
+                    <td colspan="5" class="text-center text-light opacity-50 py-3">No placement offers recorded yet.</td>
                 </tr>
                 {% endfor %}
             </tbody>

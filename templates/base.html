@@ -9,47 +9,33 @@
     <!-- Base CSS & Glass Animations -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
-    <style>
-        body {
-            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            min-height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            color: #1d1d1f;
-        }
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
-    </style>
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
     <!-- Glass Navbar -->
-    <nav class="navbar navbar-expand-lg glass-nav sticky-top mb-4">
+    <nav class="navbar navbar-expand-lg glass-nav-dark sticky-top mb-4">
         <div class="container">
-            <a class="navbar-brand fw-bold text-dark" href="{{ url_for('dashboard') }}">Placement Portal (G10)</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand fw-bold text-light apple-nav-link" href="{{ url_for('dashboard') }}">Placement Portal (G10)</a>
+            <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-collapse nav ms-auto">
+                <ul class="navbar-nav ms-auto gap-2">
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-medium" href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <a class="nav-link text-light fw-medium apple-nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-medium" href="{{ url_for('students') }}">Students Directory</a>
+                        <a class="nav-link text-light fw-medium apple-nav-link" href="{{ url_for('students') }}">Students Directory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark fw-medium" href="{{ url_for('jobs') }}">Jobs & Applications</a>
+                        <a class="nav-link text-light fw-medium apple-nav-link" href="{{ url_for('jobs') }}">Jobs & Applications</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Container -->
-    <main class="container py-2">
+    <!-- Main Content Container with Bounce Down Effect -->
+    <main class="container py-2 page-bounce-container">
         {% block content %}{% endblock %}
     </main>
 

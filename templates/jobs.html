@@ -1,42 +1,63 @@
 {% extends 'base.html' %}
 
+{% block body_class %}theme-jobs{% endblock %}
+
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold text-dark mb-0">Job Openings & Eligibility Application</h2>
+    <h2 class="fw-bold text-white mb-0">Job Openings & Eligibility Application</h2>
 </div>
 
 <div class="row g-4">
     {% for drive in drives %}
     <div class="col-md-6">
-        <div class="glass-card p-4 h-100 d-flex flex-column justify-content-between">
+        <div class="glass-card-transparent p-4 h-100 d-flex flex-column justify-content-between">
             <div>
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <h4 class="fw-bold text-primary mb-0">{{ drive.role }}</h4>
-                    <span class="badge bg-primary bg-opacity-10 text-primary fs-6 px-3 py-2">
+                    <h4 class="fw-bold text-info mb-0">{{ drive.role }}</h4>
+                    <span class="badge bg-info bg-opacity-20 text-info fs-6 px-3 py-2 border border-info border-opacity-25">
                         ₹{{ drive.package }} LPA
                     </span>
                 </div>
-                <h6 class="text-secondary fw-semibold mb-3">{{ drive.company_name }}</h6>
+                <h6 class="text-light opacity-75 fw-semibold mb-3">{{ drive.company_name }}</h6>
+
+                <!-- Eligibility Details Box -->
+                <div class="mb-3 p-3 bg-black bg-opacity-25 rounded border border-light border-opacity-10">
+                    {% if drive.job_description %}
+                        <p class="small text-light opacity-75 mb-2">{{ drive.job_description }}</p>
+                    {% endif %}
+                    
+                    <div class="d-flex gap-2 flex-wrap">
+                        {% if drive.min_cgpa is not none %}
+                            <span class="badge bg-light bg-opacity-10 text-white">Min CGPA: {{ drive.min_cgpa }}</span>
+                        {% endif %}
+                        {% if drive.max_backlogs_allowed is not none %}
+                            <span class="badge bg-light bg-opacity-10 text-white">Max Backlogs: {{ drive.max_backlogs_allowed }}</span>
+                        {% endif %}
+                        {% if drive.drive_date %}
+                            <span class="badge bg-info bg-opacity-20 text-info">Drive Date: {{ drive.drive_date }}</span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
 
             <form action="{{ url_for('jobs') }}" method="POST" class="mt-3">
                 <input type="hidden" name="job_id" value="{{ drive.job_id }}">
                 <div class="input-group">
-                    <select name="student_id" class="form-select border-0 bg-white bg-opacity-50" required>
+                    <select name="student_id" class="form-select dark-select" required>
                         <option value="" selected disabled>Select Student to Apply</option>
                         {% for student in students %}
                         <option value="{{ student.student_id }}">{{ student.name }}</option>
                         {% endfor %}
                     </select>
-                    <button type="submit" class="btn btn-success fw-semibold px-4">Apply</button>
+                    <button type="submit" class="btn btn-info text-dark fw-bold px-4">Apply</button>
                 </div>
             </form>
         </div>
     </div>
     {% else %}
     <div class="col-12">
-        <div class="glass-card p-5 text-center">
-            <h5 class="text-muted mb-0">No active job drives found in the database.</h5>
+        <div class="glass-card-transparent p-5 text-center">
+            <h5 class="text-light opacity-50 mb-0">No active job drives found in the database.</h5>
         </div>
     </div>
     {% endfor %}

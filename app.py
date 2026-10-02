@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_placement_key'
@@ -16,13 +16,11 @@ def dashboard():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # 1. Fetch counts
     total_students = cursor.execute("SELECT COUNT(*) FROM STUDENT").fetchone()[0] or 0
     total_companies = cursor.execute("SELECT COUNT(*) FROM COMPANY").fetchone()[0] or 0
     total_jobs = cursor.execute("SELECT COUNT(*) FROM JOB").fetchone()[0] or 0
     total_offers = cursor.execute("SELECT COUNT(*) FROM OFFER").fetchone()[0] or 0
     
-    # 2. Query offers via APPLICATION join
     placed_query = """
         SELECT s.name, s.student_code, c.company_name, j.job_title AS role, j.package_lpa AS package
         FROM OFFER o
@@ -35,7 +33,6 @@ def dashboard():
     try:
         placed_students = cursor.execute(placed_query).fetchall()
     except sqlite3.OperationalError:
-        # Direct query if OFFER table directly references student_id & job_id
         placed_query_direct = """
             SELECT s.name, s.student_code, c.company_name, j.job_title AS role, j.package_lpa AS package
             FROM APPLICATION a
@@ -60,17 +57,57 @@ def dashboard():
 @app.route('/students')
 def students():
     conn = get_db_connection()
-    students_list = conn.execute("SELECT * FROM STUDENT").fetchall()
+    # Joined with PROGRAM and ACADEMIC_RECORD tables
+    students_query = """
+        SELECT 
+            s.student_id,
+            s.student_code,
+            s.name,
+            s.email,
+            s.phone,
+            p.program_name,
+            p.department,
+            ar.cgpa,
+            ar.active_backlogs
+        FROM STUDENT s
+        LEFT JOIN PROGRAM p ON s.program_id = p.program_id
+        LEFT JOIN ACADEMIC_RECORD ar ON s.student_id = ar.student_id
+    """
+    students_list = conn.execute(students_query).fetchall()
     conn.close()
     return render_template('students.html', students=students_list)
 
-@app.route('/jobs')
+@app.route('/jobs', methods=['GET', 'POST'])
 def jobs():
     conn = get_db_connection()
+    
+    if request.method == 'POST':
+        student_id = request.form.get('student_id')
+        job_id = request.form.get('job_id')
+        if student_id and job_id:
+            conn.execute(
+                "INSERT INTO APPLICATION (student_id, job_id, status) VALUES (?, ?, 'Applied')",
+                (student_id, job_id)
+            )
+            conn.commit()
+            flash('Application submitted successfully!', 'success')
+            conn.close()
+            return redirect(url_for('jobs'))
+
+    # Joined JOB with COMPANY and JOB_ELIGIBILITY tables
     drives_query = """
-        SELECT j.job_id, c.company_name, j.job_title AS role, j.package_lpa AS package
+        SELECT 
+            j.job_id,
+            j.job_title AS role,
+            j.job_description,
+            j.package_lpa AS package,
+            j.drive_date,
+            c.company_name,
+            e.min_cgpa,
+            e.max_backlogs_allowed
         FROM JOB j
         JOIN COMPANY c ON j.company_id = c.company_id
+        LEFT JOIN JOB_ELIGIBILITY e ON j.job_id = e.job_id
     """
     drives = conn.execute(drives_query).fetchall()
     students_list = conn.execute("SELECT student_id, name FROM STUDENT").fetchall()
