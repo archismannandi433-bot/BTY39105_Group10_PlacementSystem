@@ -2,62 +2,49 @@
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Registered Students & Academic Records</h2>
-    <span class="badge bg-primary fs-6">{{ students|length }} Students Enrolled</span>
+    <h2 class="fw-bold text-dark mb-0">Registered Students & Academic Records</h2>
+    <span class="badge bg-primary fs-6 px-3 py-2">{{ students|length }} Students Enrolled</span>
 </div>
 
-<div class="card shadow-sm border-0">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover table-striped mb-0 align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Student Code</th>
-                        <th>Name</th>
-                        <th>Contact Info</th>
-                        <th>Program</th>
-                        <th>CGPA</th>
-                        <th>Backlogs</th>
-                        <th>10th / 12th %</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students %}
-                    <tr>
-                        <td>
-                            <span class="badge bg-secondary font-monospace">{{ student.student_code }}</span>
-                        </td>
-                        <td class="fw-bold text-dark">{{ student.name }}</td>
-                        <td>
-                            <div>{{ student.email }}</div>
-                            <small class="text-muted">{{ student.phone }}</small>
-                        </td>
-                        <td>{{ student.program_name if student.program_name else 'N/A' }}</td>
-                        <td>
-                            <span class="badge bg-success fs-6">{{ student.cgpa }}</span>
-                        </td>
-                        <td>
-                            {% if student.active_backlogs == 0 %}
-                                <span class="badge bg-light text-success border border-success">0 Backlogs</span>
-                            {% else %}
-                                <span class="badge bg-danger">{{ student.active_backlogs }} Active</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            <small class="fw-semibold">10th:</small> {{ student.tenth_percentage }}%<br>
-                            <small class="fw-semibold">12th:</small> {{ student.twelfth_percentage }}%
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">
-                            No student records found in database.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+<div class="glass-card p-4">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Student Code</th>
+                    <th>Name</th>
+                    <th>Contact Info</th>
+                    <th>Program</th>
+                    <th>CGPA</th>
+                    <th>Backlogs</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td><span class="badge bg-secondary bg-opacity-25 text-dark fw-bold">{{ student.student_code }}</span></td>
+                    <td class="fw-semibold text-dark">{{ student.name }}</td>
+                    <td class="small text-secondary">
+                        <div>{{ student.email }}</div>
+                        <div>{{ student.phone }}</div>
+                    </td>
+                    <td class="text-dark">{{ student.program if student.program else 'B.Tech' }}</td>
+                    <td><span class="badge bg-success">{{ student.cgpa if student.cgpa else 'N/A' }}</span></td>
+                    <td>
+                        {% if student.backlogs and student.backlogs > 0 %}
+                            <span class="badge bg-danger">{{ student.backlogs }} Active</span>
+                        {% else %}
+                            <span class="badge bg-light text-dark border">0 Backlogs</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-3">No student records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

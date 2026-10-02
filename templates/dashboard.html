@@ -1,29 +1,62 @@
 {% extends 'base.html' %}
-{% block content %}
-<h2 class="mb-3">Placement Overview</h2>
 
-<div class="row mb-4">
-    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Students</h5><h3 class="text-primary">{{ students }}</h3></div></div>
-    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Companies</h5><h3 class="text-success">{{ companies }}</h3></div></div>
-    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Active Drives</h5><h3 class="text-warning">{{ jobs }}</h3></div></div>
-    <div class="col-md-3"><div class="card text-center bg-white p-3 shadow-sm"><h5>Total Offers</h5><h3 class="text-info">{{ offers }}</h3></div></div>
+{% block content %}
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="glass-card p-4 text-center">
+            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Total Students</h6>
+            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_students if total_students is not none else 0 }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass-card p-4 text-center">
+            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Active Companies</h6>
+            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_companies if total_companies is not none else 0 }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass-card p-4 text-center">
+            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Placement Drives</h6>
+            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_jobs if total_jobs is not none else 0 }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="glass-card p-4 text-center">
+            <h6 class="text-uppercase text-secondary fw-semibold small mb-2">Offers Generated</h6>
+            <h2 class="display-5 fw-bold mb-0 text-dark">{{ total_offers if total_offers is not none else 0 }}</h2>
+        </div>
+    </div>
 </div>
 
-<h4 class="mb-3">Placed Students Report</h4>
-<table class="table table-striped bg-white shadow-sm">
-    <thead class="table-dark">
-        <tr><th>Student Code</th><th>Name</th><th>Company</th><th>Job Role</th><th>Package (LPA)</th></tr>
-    </thead>
-    <tbody>
-        {% for row in placed_list %}
-        <tr>
-            <td>{{ row.student_code }}</td>
-            <td>{{ row.name }}</td>
-            <td>{{ row.company_name }}</td>
-            <td>{{ row.job_title }}</td>
-            <td>₹{{ row.offered_salary_lpa }} LPA</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="glass-card p-4">
+    <h4 class="fw-bold mb-3 text-dark">Recent Placement Offers</h4>
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Code</th>
+                    <th>Company</th>
+                    <th>Role</th>
+                    <th>Package (LPA)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for offer in placed_students %}
+                <tr>
+                    <td class="fw-semibold text-dark">{{ offer.name }}</td>
+                    <td class="text-secondary">{{ offer.student_code }}</td>
+                    <td class="text-dark">{{ offer.company_name }}</td>
+                    <td class="text-dark">{{ offer.role }}</td>
+                    <td><span class="badge bg-success bg-opacity-75">{{ offer.package }} LPA</span></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">No placement offers recorded yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
