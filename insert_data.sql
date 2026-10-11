@@ -1,300 +1,217 @@
--- ===================================================
--- PROGRAMS (10 Programs)
--- ===================================================
-INSERT INTO PROGRAM (program_name, department) VALUES 
-('B.Tech CSE - Cyber Security', 'CSE'),
-('B.Tech CSE - Data Science', 'CSE'),
-('B.Tech CSE - Artificial Intelligence', 'CSE'),
-('B.Tech CSE - Software Engineering', 'CSE'),
-('B.Tech ECE - Electronics & Comm', 'ECE'),
-('B.Tech EE - Electrical Eng', 'EE'),
-('B.Tech ME - Mechanical Eng', 'ME'),
-('BCA - Computer Applications', 'IT'),
-('MCA - Computer Applications', 'IT'),
-('B.Sc - Data Analytics', 'Maths & CS');
+-- Clean previous entries
+DELETE FROM APPLICATION;
+DELETE FROM JOB_ELIGIBILITY;
+DELETE FROM JOB;
+DELETE FROM COMPANY;
+DELETE FROM ACADEMIC_RECORD;
+DELETE FROM STUDENT;
+DELETE FROM PROGRAM;
+DELETE FROM USERS;
+
+-- Reset Auto-Increment Counters
+DELETE FROM sqlite_sequence;
 
 -- ===================================================
--- STUDENTS (105 Students)
+-- 1. ACADEMIC PROGRAMS & ADMIN USER
 -- ===================================================
-INSERT INTO STUDENT (student_code, name, email, phone, program_id) VALUES 
-('BWU/BCC/25/001', 'Pritam Goldar', 'pritam.g@example.com', '9876543210', 1),
-('BWU/BCC/25/002', 'Avinava Nandi', 'avinava.n@example.com', '9876543211', 1),
-('BWU/BCC/25/003', 'Trishita Pal', 'trishita.p@example.com', '9876543212', 2),
-('BWU/BCC/25/004', 'Aarav Sharma', 'aarav.s@example.com', '9876543213', 3),
-('BWU/BCC/25/005', 'Ananya Roy', 'ananya.r@example.com', '9876543214', 2),
-('BWU/BCC/25/006', 'Rohan Das', 'rohan.d@example.com', '9876543215', 1),
-('BWU/BCC/25/007', 'Sneha Banerjee', 'sneha.b@example.com', '9876543216', 3),
-('BWU/BCC/25/008', 'Sourav Ganguly', 'sourav.g@example.com', '9876543217', 4),
-('BWU/BCC/25/009', 'Srinjay Ghosh', 'srinjay.g@example.com', '9876543218', 2),
-('BWU/BCC/25/010', 'Diya Saha', 'diya.s@example.com', '9876543219', 8),
-('BWU/BCC/25/011', 'Debanjan Sen', 'debanjan.s@example.com', '9876543220', 1),
-('BWU/BCC/25/012', 'Subham Mukherjee', 'subham.m@example.com', '9876543221', 3),
-('BWU/BCC/25/013', 'Pooja Dutta', 'pooja.d@example.com', '9876543222', 2),
-('BWU/BCC/25/014', 'Arpan Bhattacharya', 'arpan.b@example.com', '9876543223', 5),
-('BWU/BCC/25/015', 'Riya Bose', 'riya.b@example.com', '9876543224', 8),
-('BWU/BCC/25/016', 'Koushik Mitra', 'koushik.m@example.com', '9876543225', 1),
-('BWU/BCC/25/017', 'Tiyasa Kundu', 'tiyasa.k@example.com', '9876543226', 2),
-('BWU/BCC/25/018', 'Akash Pramanik', 'akash.p@example.com', '9876543227', 3),
-('BWU/BCC/25/019', 'Megha Chakraborty', 'megha.c@example.com', '9876543228', 5),
-('BWU/BCC/25/020', 'Sayan Paul', 'sayan.p@example.com', '9876543229', 8),
-('BWU/BCC/25/021', 'Nisha Agarwal', 'nisha.a@example.com', '9876543230', 1),
-('BWU/BCC/25/022', 'Rishi Verma', 'rishi.v@example.com', '9876543231', 3),
-('BWU/BCC/25/023', 'Kabir Kapoor', 'kabir.k@example.com', '9876543232', 4),
-('BWU/BCC/25/024', 'Neha Joshi', 'neha.j@example.com', '9876543233', 6),
-('BWU/BCC/25/025', 'Anushka Mehta', 'anushka.m@example.com', '9876543234', 7),
-('BWU/BCC/25/026', 'Siddharth Nair', 'siddharth.n@example.com', '9876543235', 9),
-('BWU/BCC/25/027', 'Vikram Reddy', 'vikram.r@example.com', '9876543236', 10),
-('BWU/BCC/25/028', 'Rahul Iyer', 'rahul.i@example.com', '9876543237', 1),
-('BWU/BCC/25/029', 'Priya Rao', 'priya.r@example.com', '9876543238', 2),
-('BWU/BCC/25/030', 'Tanvi Chawla', 'tanvi.c@example.com', '9876543239', 3),
-('BWU/BCC/25/031', 'Shreya Saxena', 'shreya.s@example.com', '9876543240', 4),
-('BWU/BCC/25/032', 'Amit Malhotra', 'amit.m@example.com', '9876543241', 5),
-('BWU/BCC/25/033', 'Raj Bansal', 'raj.b@example.com', '9876543242', 6),
-('BWU/BCC/25/034', 'Varun Bhatia', 'varun.b@example.com', '9876543243', 7),
-('BWU/BCC/25/035', 'Deepak Gill', 'deepak.g@example.com', '9876543244', 8),
-('BWU/BCC/25/036', 'Manish Pandey', 'manish.p@example.com', '9876543245', 9),
-('BWU/BCC/25/037', 'Kunal Shah', 'kunal.s@example.com', '9876543246', 10),
-('BWU/BCC/25/038', 'Pooja Singhania', 'pooja.s@example.com', '9876543247', 1),
-('BWU/BCC/25/039', 'Gaurav Deshmukh', 'gaurav.d@example.com', '9876543248', 2),
-('BWU/BCC/25/040', 'Snehal Patil', 'snehal.p@example.com', '9876543249', 3),
-('BWU/BCC/25/041', 'Aditya Kulkarni', 'aditya.k@example.com', '9876543250', 4),
-('BWU/BCC/25/042', 'Isha Shinde', 'isha.s@example.com', '9876543251', 5),
-('BWU/BCC/25/043', 'Chinmay Pawar', 'chinmay.p@example.com', '9876543252', 6),
-('BWU/BCC/25/044', 'Divya More', 'divya.m@example.com', '9876543253', 7),
-('BWU/BCC/25/045', 'Sanket Joshi', 'sanket.j@example.com', '9876543254', 8),
-('BWU/BCC/25/046', 'Pratibha Varma', 'pratibha.v@example.com', '9876543255', 9),
-('BWU/BCC/25/047', 'Bhavesh Yadav', 'bhavesh.y@example.com', '9876543256', 10),
-('BWU/BCC/25/048', 'Kavita Mishra', 'kavita.m@example.com', '9876543257', 1),
-('BWU/BCC/25/049', 'Alok Tiwari', 'alok.t@example.com', '9876543258', 2),
-('BWU/BCC/25/050', 'Monika Dubey', 'monika.d@example.com', '9876543259', 3),
-('BWU/BCC/25/051', 'Nikhil Tripathi', 'nikhil.t@example.com', '9876543260', 4),
-('BWU/BCC/25/052', 'Preeti Shukla', 'preeti.s@example.com', '9876543261', 5),
-('BWU/BCC/25/053', 'Rakesh Srivastava', 'rakesh.s@example.com', '9876543262', 6),
-('BWU/BCC/25/054', 'Swati Saxena', 'swati.s@example.com', '9876543263', 7),
-('BWU/BCC/25/055', 'Umesh Kumar', 'umesh.k@example.com', '9876543264', 8),
-('BWU/BCC/25/056', 'Vandana Singh', 'vandana.s@example.com', '9876543265', 9),
-('BWU/BCC/25/057', 'Yash Pal', 'yash.p@example.com', '9876543266', 10),
-('BWU/BCC/25/058', 'Zeenat Khan', 'zeenat.k@example.com', '9876543267', 1),
-('BWU/BCC/25/059', 'Abhishek Chaudhury', 'abhishek.c@example.com', '9876543268', 2),
-('BWU/BCC/25/060', 'Bhavna Somani', 'bhavna.s@example.com', '9876543269', 3),
-('BWU/BCC/25/061', 'Chirag Parekh', 'chirag.p@example.com', '9876543270', 4),
-('BWU/BCC/25/062', 'Drishti Merchant', 'drishti.m@example.com', '9876543271', 5),
-('BWU/BCC/25/063', 'Eshaan Zaveri', 'eshaan.z@example.com', '9876543272', 6),
-('BWU/BCC/25/064', 'Farhan Merchant', 'farhan.m@example.com', '9876543273', 7),
-('BWU/BCC/25/065', 'Garima Kothari', 'garima.k@example.com', '9876543274', 8),
-('BWU/BCC/25/066', 'Harsh Singhi', 'harsh.s@example.com', '9876543275', 9),
-('BWU/BCC/25/067', 'Inderpal Singh', 'inderpal.s@example.com', '9876543276', 10),
-('BWU/BCC/25/068', 'Jasleen Kaur', 'jasleen.k@example.com', '9876543277', 1),
-('BWU/BCC/25/069', 'Karan Ahluwalia', 'karan.a@example.com', '9876543278', 2),
-('BWU/BCC/25/070', 'Lavanya Sundaram', 'lavanya.s@example.com', '9876543279', 3),
-('BWU/BCC/25/071', 'Madhavan Pillai', 'madhavan.p@example.com', '9876543280', 4),
-('BWU/BCC/25/072', 'Nandini Swaminathan', 'nandini.s@example.com', '9876543281', 5),
-('BWU/BCC/25/073', 'Omkar Nambiar', 'omkar.n@example.com', '9876543282', 6),
-('BWU/BCC/25/074', 'Padma Krishnan', 'padma.k@example.com', '9876543283', 7),
-('BWU/BCC/25/075', 'Raghav Menakshi', 'raghav.m@example.com', '9876543284', 8),
-('BWU/BCC/25/076', 'Sarika Venkatesh', 'sarika.v@example.com', '9876543285', 9),
-('BWU/BCC/25/077', 'Tejas Balakrishnan', 'tejas.b@example.com', '9876543286', 10),
-('BWU/BCC/25/078', 'Uma Subramanian', 'uma.s@example.com', '9876543287', 1),
-('BWU/BCC/25/079', 'Vijay Raghavan', 'vijay.r@example.com', '9876543288', 2),
-('BWU/BCC/25/080', 'Yamini Natarajan', 'yamini.n@example.com', '9876543289', 3),
-('BWU/BCC/25/081', 'Ankit Biswas', 'ankit.b@example.com', '9876543290', 4),
-('BWU/BCC/25/082', 'Bidisha Majumdar', 'bidisha.m@example.com', '9876543291', 5),
-('BWU/BCC/25/083', 'Debasmita Roy', 'debasmita.r@example.com', '9876543292', 6),
-('BWU/BCC/25/084', 'Gourab Seal', 'gourab.s@example.com', '9876543293', 7),
-('BWU/BCC/25/085', 'Indranil Nandi', 'indranil.n@example.com', '9876543294', 8),
-('BWU/BCC/25/086', 'Jyoti Chakraborty', 'jyoti.c@example.com', '9876543295', 9),
-('BWU/BCC/25/087', 'Kaushik Roy', 'kaushik.r@example.com', '9876543296', 10),
-('BWU/BCC/25/088', 'Lopamudra Sarkar', 'lopamudra.s@example.com', '9876543297', 1),
-('BWU/BCC/25/089', 'Mainak Laha', 'mainak.l@example.com', '9876543298', 2),
-('BWU/BCC/25/090', 'Niladri Samanta', 'niladri.s@example.com', '9876543299', 3),
-('BWU/BCC/25/091', 'Oindrila Bhowmick', 'oindrila.b@example.com', '9876543300', 4),
-('BWU/BCC/25/092', 'Partha Pratim', 'partha.p@example.com', '9876543301', 5),
-('BWU/BCC/25/093', 'Rupanjana Guha', 'rupanjana.g@example.com', '9876543302', 6),
-('BWU/BCC/25/094', 'Sayantan De', 'sayantan.d@example.com', '9876543303', 7),
-('BWU/BCC/25/095', 'Tamal Ghosh', 'tamal.g@example.com', '9876543304', 8),
-('BWU/BCC/25/096', 'Upasana Nag', 'upasana.n@example.com', '9876543305', 9),
-('BWU/BCC/25/097', 'Ayan Sengupta', 'ayan.s@example.com', '9876543306', 10),
-('BWU/BCC/25/098', 'Barnali Dhar', 'barnali.d@example.com', '9876543307', 1),
-('BWU/BCC/25/099', 'Chiranjeev Sarkar', 'chiranjeev.s@example.com', '9876543308', 2),
-('BWU/BCC/25/100', 'Doyel Adhikary', 'doyel.a@example.com', '9876543309', 3),
-('BWU/BCC/25/101', 'Emon Kar', 'emon.k@example.com', '9876543310', 4),
-('BWU/BCC/25/102', 'Falguni Bagchi', 'falguni.b@example.com', '9876543311', 5),
-('BWU/BCC/25/103', 'Gargi Poddar', 'gargi.p@example.com', '9876543312', 6),
-('BWU/BCC/25/104', 'Himadri Biswas', 'himadri.b@example.com', '9876543313', 7),
-('BWU/BCC/25/105', 'Indrani Som', 'indrani.s@example.com', '9876543314', 8);
+
+INSERT INTO PROGRAM (program_id, program_name, department) VALUES 
+(1, 'B.Tech CSE - Cyber Security', 'CSE'),
+(2, 'B.Tech CSE - Data Science', 'CSE'),
+(3, 'B.Tech ECE', 'ECE'),
+(4, 'B.Tech Mechanical Engineering', 'ME');
+
+-- Admin Account (email: admin@placement.com | pass: adminpassword)
+INSERT INTO USERS (user_id, email, password_hash, role) VALUES 
+(1, 'admin@placement.com', 'adminpassword', 'ADMIN');
+
 
 -- ===================================================
--- ACADEMIC RECORDS (For 105 Students)
+-- 2. SEED 105 REALISTIC STUDENTS
 -- ===================================================
-INSERT INTO ACADEMIC_RECORD (student_id, cgpa, active_backlogs, tenth_percentage, twelfth_percentage) VALUES 
-(1, 8.8, 0, 88.5, 85.0), (2, 7.8, 0, 82.0, 79.0), (3, 6.2, 1, 75.0, 70.0), (4, 9.2, 0, 92.0, 90.0), (5, 8.1, 0, 85.0, 84.0),
-(6, 6.8, 2, 72.0, 68.0), (7, 8.6, 0, 89.0, 86.5), (8, 7.4, 0, 78.0, 76.0), (9, 8.9, 0, 91.0, 88.0), (10, 6.5, 1, 70.0, 67.0),
-(11, 7.9, 0, 81.0, 80.0), (12, 9.5, 0, 96.0, 94.0), (13, 8.3, 0, 86.0, 83.0), (14, 6.1, 2, 68.0, 65.0), (15, 7.2, 0, 76.0, 74.0),
-(16, 8.7, 0, 88.0, 87.0), (17, 8.4, 0, 87.0, 85.0), (18, 5.9, 1, 65.0, 62.0), (19, 7.6, 0, 80.0, 78.0), (20, 8.0, 0, 83.0, 81.0),
-(21, 9.1, 0, 93.0, 91.0), (22, 6.9, 0, 73.0, 71.0), (23, 8.5, 0, 86.0, 84.0), (24, 7.1, 0, 75.0, 73.0), (25, 6.4, 1, 68.0, 66.0),
-(26, 9.0, 0, 91.0, 89.0), (27, 8.2, 0, 83.0, 81.0), (28, 7.7, 0, 79.0, 76.0), (29, 8.6, 0, 88.0, 85.0), (30, 6.0, 2, 63.0, 61.0),
-(31, 8.9, 0, 90.0, 88.0), (32, 7.3, 0, 76.0, 74.0), (33, 8.0, 0, 82.0, 80.0), (34, 9.4, 0, 95.0, 93.0), (35, 6.7, 1, 71.0, 69.0),
-(36, 7.8, 0, 80.0, 77.0), (37, 8.3, 0, 85.0, 82.0), (38, 9.1, 0, 92.0, 90.0), (39, 6.2, 0, 67.0, 65.0), (40, 7.5, 0, 78.0, 75.0),
-(41, 8.7, 0, 89.0, 86.0), (42, 6.9, 1, 72.0, 70.0), (43, 8.1, 0, 83.0, 81.0), (44, 7.4, 0, 77.0, 74.0), (45, 9.3, 0, 94.0, 92.0),
-(46, 8.0, 0, 81.0, 79.0), (47, 6.3, 2, 66.0, 63.0), (48, 8.8, 0, 89.0, 87.0), (49, 7.2, 0, 74.0, 72.0), (50, 8.4, 0, 85.0, 83.0),
-(51, 9.0, 0, 91.0, 89.0), (52, 6.6, 1, 69.0, 67.0), (53, 7.9, 0, 81.0, 78.0), (54, 8.2, 0, 84.0, 81.0), (55, 6.1, 2, 64.0, 62.0),
-(56, 8.5, 0, 86.0, 84.0), (57, 7.6, 0, 78.0, 75.0), (58, 9.2, 0, 93.0, 91.0), (59, 8.0, 0, 82.0, 80.0), (60, 6.8, 0, 71.0, 69.0),
-(61, 8.6, 0, 87.0, 85.0), (62, 7.0, 1, 73.0, 70.0), (63, 8.9, 0, 90.0, 88.0), (64, 7.3, 0, 75.0, 73.0), (65, 8.1, 0, 83.0, 81.0),
-(66, 9.5, 0, 96.0, 94.0), (67, 6.4, 2, 67.0, 64.0), (68, 7.8, 0, 80.0, 77.0), (69, 8.4, 0, 86.0, 83.0), (70, 7.1, 0, 74.0, 72.0),
-(71, 8.8, 0, 89.0, 87.0), (72, 9.0, 0, 91.0, 89.0), (73, 6.5, 1, 68.0, 66.0), (74, 7.7, 0, 79.0, 76.0), (75, 8.3, 0, 84.0, 82.0),
-(76, 8.7, 0, 88.0, 86.0), (77, 6.2, 0, 65.0, 63.0), (78, 7.9, 0, 81.0, 79.0), (79, 9.1, 0, 92.0, 90.0), (80, 8.2, 0, 83.0, 81.0),
-(81, 7.5, 0, 77.0, 75.0), (82, 8.6, 0, 87.0, 85.0), (83, 6.9, 1, 71.0, 68.0), (84, 8.0, 0, 82.0, 80.0), (85, 9.3, 0, 94.0, 92.0),
-(86, 7.4, 0, 76.0, 73.0), (87, 8.1, 0, 83.0, 81.0), (88, 6.3, 2, 65.0, 62.0), (89, 8.9, 0, 90.0, 88.0), (90, 7.6, 0, 78.0, 76.0),
-(91, 8.4, 0, 85.0, 83.0), (92, 9.2, 0, 93.0, 91.0), (93, 6.7, 1, 70.0, 67.0), (94, 7.8, 0, 80.0, 78.0), (95, 8.5, 0, 86.0, 84.0),
-(96, 7.1, 0, 73.0, 71.0), (97, 8.8, 0, 89.0, 87.0), (98, 6.0, 2, 62.0, 60.0), (99, 8.0, 0, 81.0, 79.0), (100, 9.1, 0, 92.0, 90.0),
-(101, 7.7, 0, 78.0, 76.0), (102, 8.3, 0, 84.0, 82.0), (103, 6.8, 1, 71.0, 68.0), (104, 8.6, 0, 87.0, 85.0), (105, 9.4, 0, 95.0, 93.0);
+
+-- Create 105 Student User Accounts (IDs 101 to 205)
+WITH RECURSIVE cnt(x) AS (
+    SELECT 101
+    UNION ALL
+    SELECT x + 1 FROM cnt WHERE x < 205
+)
+INSERT INTO USERS (user_id, email, password_hash, role)
+SELECT 
+    x,
+    'student' || (x - 100) || '@placement.com',
+    'studentpassword',
+    'STUDENT'
+FROM cnt;
+
+-- Temp table of first and last names to synthesize realistic combinations
+CREATE TEMP TABLE student_names (id INTEGER PRIMARY KEY, full_name TEXT);
+INSERT INTO student_names (full_name) VALUES
+('Pritam Goldar'), ('Arijit Roy'), ('Sneha Banerjee'), ('Rahul Mukherjee'), ('Ananya Chakraborty'),
+('Sayan Dutta'), ('Debolina Das'), ('Rohan Sharma'), ('Priya Verma'), ('Vikram Singh'),
+('Amit Kumar'), ('Neha Gupta'), ('Rishabh Mishra'), ('Anushka Bose'), ('Siddharth Ghosh'),
+('Shweta Nair'), ('Arpan Chatterji'), ('Tiyasa Sen'), ('Sourav Paul'), ('Megha Saha'),
+('Abhishek Bhattacharya'), ('Tanvi Saxena'), ('Karan Malhotra'), ('Pooja Kulkarni'), ('Manish Pandey'),
+('Ritu Deshmukh'), ('Aditya Iyer'), ('Kriti Reddy'), ('Varun Agarwal'), ('Riya Pal'),
+('Subhajit Nandi'), ('Sayani Bishnu'), ('Niladri Chaudhuri'), ('Sreeja Seal'), ('Arkadeep Ganguly'),
+('Payel Kundu'), ('Suraj Mondal'), ('Trisha De'), ('Bishal Dhar'), ('Dipanwita Kole'),
+('Kaustav Biswas'), ('Moumitha Majumder'), ('Sujay Haldar'), ('Shreyasi Sikdar'), ('Rana Sarkar'),
+('Pallabi Nag'), ('Tuhin Som'), ('Sanchari Barat'), ('Koushik Paria'), ('Swagata Maiti'),
+('Ayan Pramanik'), ('Brinda Ghosh'), ('Chiranjit Bag'), ('Damini Roy'), ('Eshan Samanta'),
+('Farhan Ali'), ('Gourab Kar'), ('Himika Mitra'), ('Indranil Rakshit'), ('Jaya Chandra'),
+('Kushal Sanyal'), ('Lopamudra Hazra'), ('Mayukh Dawn'), ('Nandini Barat'), ('Omkar Joshi'),
+('Partha Sarathi'), ('Qasim Khan'), ('Rupali Mallick'), ('Sudipta Bhowmick'), ('Tania Sur'),
+('Ujjwal Barman'), ('Vaishali Kapoor'), ('Wasim Akram'), ('Yashvardhan Jain'), ('Zoya Akhtar'),
+('Aritra Bera'), ('Barnali Saha'), ('Chayan Ghosal'), ('Divya Nair'), ('Gautam Rao'),
+('Harsh Vardhan'), ('Isha Sinha'), ('Jitendra Prasad'), ('Kavita Mehra'), ('Lokesh Hegde'),
+('Mohit Suri'), ('Nisha Pillai'), ('Oindrila Roy'), ('Prateek Chouhan'), ('Rashmi Menon'),
+('Sarbani Kar'), ('Tarun Kapoor'), ('Upasana Sen'), ('Vivek Oberoi'), ('Yamini Krishnamurthy'),
+('Zaheer Khan'), ('Akash Deep'), ('Bhabatosh Giri'), ('Chandrima Poddar'), ('Debasmita Laha'),
+('Gouranga Santra'), ('Hrittika Bhawal'), ('Ishan Kishan'), ('Jasprit Bumrah'), ('Kunal Khemu');
+
+-- Populate STUDENT profiles
+INSERT INTO STUDENT (student_id, user_id, student_code, name, email, phone, program_id)
+SELECT 
+    sn.id,
+    sn.id + 100,
+    'BWU/BCC/25/' || PRINTF('%03d', sn.id),
+    sn.full_name,
+    'student' || sn.id || '@placement.com',
+    '987' || PRINTF('%07d', 6543210 + sn.id),
+    ((sn.id - 1) % 4) + 1
+FROM student_names sn;
+
+DROP TABLE student_names;
+
+-- Populate ACADEMIC_RECORDs for all 105 Students
+WITH RECURSIVE cnt(x) AS (
+    SELECT 1
+    UNION ALL
+    SELECT x + 1 FROM cnt WHERE x < 105
+)
+INSERT INTO ACADEMIC_RECORD (student_id, cgpa, active_backlogs, tenth_percentage, twelfth_percentage)
+SELECT 
+    x,
+    ROUND(6.2 + (x % 37) * 0.1, 1),
+    CASE WHEN x % 12 = 0 THEN 1 ELSE 0 END,
+    ROUND(75.0 + (x % 20) * 0.8, 1),
+    ROUND(72.0 + (x % 20) * 0.8, 1)
+FROM cnt;
+
 
 -- ===================================================
--- COMPANIES (52 Companies)
+-- 3. SEED 52 REAL RECRUITING COMPANIES
 -- ===================================================
-INSERT INTO COMPANY (company_name, industry, contact_email, location) VALUES 
-('TCS', 'IT Services', 'hr@tcs.com', 'Kolkata'),
-('Microsoft', 'Product Development', 'recruitment@microsoft.com', 'Bangalore'),
-('Cognizant', 'IT & Consulting', 'careers@cognizant.com', 'Kolkata'),
-('Amazon', 'E-Commerce / Cloud', 'university@amazon.com', 'Hyderabad'),
-('Wipro', 'IT Services', 'campus@wipro.com', 'Pune'),
-('Deloitte', 'Financial Consulting', 'graduates@deloitte.com', 'Gurgaon'),
-('Infosys', 'IT Services', 'careers@infosys.com', 'Bangalore'),
-('Accenture', 'Consulting', 'campus@accenture.com', 'Mumbai'),
-('Capgemini', 'IT Services', 'hr@capgemini.com', 'Kolkata'),
-('IBM', 'Cloud & AI', 'university@ibm.com', 'Bangalore'),
-('Google', 'Product Development', 'jobs@google.com', 'Hyderabad'),
-('Oracle', 'Database & Cloud', 'careers@oracle.com', 'Bangalore'),
-('SAP', 'Enterprise Software', 'graduates@sap.com', 'Bangalore'),
-('Tech Mahindra', 'IT Services', 'campus@techmahindra.com', 'Noida'),
-('HCL Technologies', 'IT Services', 'hr@hcl.com', 'Noida'),
-('LTI Mindtree', 'IT Services', 'careers@ltimindtree.com', 'Mumbai'),
-('Cisco', 'Networking & Security', 'university@cisco.com', 'Bangalore'),
-('Intel', 'Semiconductors', 'careers@intel.com', 'Bangalore'),
-('AMD', 'Semiconductors', 'jobs@amd.com', 'Hyderabad'),
-('NVIDIA', 'Graphics & AI', 'university@nvidia.com', 'Pune'),
-('Adobe', 'Software', 'careers@adobe.com', 'Noida'),
-('Salesforce', 'Cloud CRM', 'university@salesforce.com', 'Hyderabad'),
-('Atlassian', 'Developer Tools', 'jobs@atlassian.com', 'Bangalore'),
-('Uber', 'Mobility', 'careers@uber.com', 'Bangalore'),
-('Flipkart', 'E-Commerce', 'campus@flipkart.com', 'Bangalore'),
-('Paytm', 'FinTech', 'careers@paytm.com', 'Noida'),
-('Swiggy', 'Consumer Tech', 'jobs@swiggy.com', 'Bangalore'),
-('Zomato', 'Consumer Tech', 'careers@zomato.com', 'Gurgaon'),
-('PhonePe', 'FinTech', 'university@phonepe.com', 'Bangalore'),
-('CRED', 'FinTech', 'careers@cred.com', 'Bangalore'),
-('Goldman Sachs', 'Investment Banking', 'campus@gs.com', 'Bangalore'),
-('JP Morgan', 'Financial Services', 'careers@jpmorgan.com', 'Mumbai'),
-('Morgan Stanley', 'Financial Services', 'jobs@morganstanley.com', 'Mumbai'),
-('Barclays', 'Banking', 'careers@barclays.com', 'Pune'),
-('HSBC', 'Banking', 'campus@hsbc.com', 'Hyderabad'),
-('Deutsche Bank', 'Banking', 'careers@db.com', 'Pune'),
-('Societe Generale', 'Financial Services', 'jobs@socgen.com', 'Bangalore'),
-('EY', 'Consulting', 'careers@ey.com', 'Gurgaon'),
-('PwC', 'Consulting', 'campus@pwc.com', 'Kolkata'),
-('KPMG', 'Consulting', 'careers@kpmg.com', 'Gurgaon'),
-('Samsung R&D', 'Consumer Electronics', 'careers@samsung.com', 'Noida'),
-('Qualcomm', 'Wireless & Telecom', 'jobs@qualcomm.com', 'Hyderabad'),
-('Texas Instruments', 'Semiconductors', 'careers@ti.com', 'Bangalore'),
-('Bosch', 'Automobile & IoT', 'campus@bosch.com', 'Bangalore'),
-('Siemens', 'Industrial Automation', 'careers@siemens.com', 'Pune'),
-('General Electric', 'Conglomerate', 'jobs@ge.com', 'Bangalore'),
-('L&T', 'Engineering & Construction', 'careers@larsentoubro.com', 'Mumbai'),
-('Reliance Jio', 'Telecom', 'campus@jio.com', 'Navi Mumbai'),
-('Airtel', 'Telecom', 'careers@airtel.com', 'Gurgaon'),
-('Tata Motors', 'Automobile', 'careers@tatamotors.com', 'Pune'),
-('Mahindra & Mahindra', 'Automobile', 'jobs@mahindra.com', 'Mumbai'),
-('Bajaj Auto', 'Automobile', 'careers@bajajauto.com', 'Pune');
+
+-- Create 52 Company User Accounts (IDs 501 to 552)
+WITH RECURSIVE cnt(x) AS (
+    SELECT 501
+    UNION ALL
+    SELECT x + 1 FROM cnt WHERE x < 552
+)
+INSERT INTO USERS (user_id, email, password_hash, role)
+SELECT 
+    x,
+    'recruiter' || (x - 500) || '@corporate.com',
+    'companypassword',
+    'COMPANY'
+FROM cnt;
+
+-- Temp table of Real Companies
+CREATE TEMP TABLE company_list (id INTEGER PRIMARY KEY, name TEXT, industry TEXT, location TEXT);
+INSERT INTO company_list (name, industry, location) VALUES
+('Tata Consultancy Services', 'IT Services', 'Kolkata'),
+('Cognizant', 'IT Services', 'Kolkata'),
+('Infosys', 'IT Services', 'Bengaluru'),
+('Wipro', 'IT Services', 'Bengaluru'),
+('Microsoft', 'Software Product', 'Bengaluru'),
+('Google', 'Software Product', 'Hyderabad'),
+('Amazon', 'E-Commerce / Cloud', 'Hyderabad'),
+('Accenture', 'Consulting / IT', 'Kolkata'),
+('Capgemini', 'IT Services', 'Pune'),
+('IBM', 'IT & Cloud Services', 'Bengaluru'),
+('HCLTech', 'IT Services', 'Noida'),
+('Tech Mahindra', 'IT Services', 'Pune'),
+('Oracle', 'Database & Cloud', 'Bengaluru'),
+('Deloitte', 'Financial Consulting', 'Hyderabad'),
+('PwC', 'Consulting Services', 'Kolkata'),
+('EY (Ernst & Young)', 'Consulting Services', 'Kolkata'),
+('KPMG', 'Consulting Services', 'Gurugram'),
+('LTIMindtree', 'IT Services', 'Mumbai'),
+('Cisco', 'Networking & Tech', 'Bengaluru'),
+('Intel', 'Semiconductor', 'Bengaluru'),
+('Qualcomm', 'Semiconductor', 'Hyderabad'),
+('Samsung R&D', 'Electronics & Tech', 'Bengaluru'),
+('Adobe', 'Software Product', 'Noida'),
+('Salesforce', 'Cloud CRM', 'Hyderabad'),
+('SAP', 'Enterprise Software', 'Bengaluru'),
+('Goldman Sachs', 'Investment Banking', 'Bengaluru'),
+('JPMorgan Chase', 'Financial Services', 'Hyderabad'),
+('Morgan Stanley', 'Financial Services', 'Mumbai'),
+('PayPal', 'Fintech', 'Chennai'),
+('Flipkart', 'E-Commerce', 'Bengaluru'),
+('Uber', 'Mobility & Tech', 'Hyderabad'),
+('Swiggy', 'Consumer Tech', 'Bengaluru'),
+('Zomato', 'Consumer Tech', 'Gurugram'),
+('Paytm', 'Fintech', 'Noida'),
+('PhonePe', 'Fintech', 'Bengaluru'),
+('Amdocs', 'Telecom Software', 'Pune'),
+('Nvidia', 'AI Hardware', 'Bengaluru'),
+('Synopsis', 'Semiconductor Tech', 'Noida'),
+('Cadence Design Systems', 'Semiconductor Tech', 'Noida'),
+('Dell Technologies', 'Hardware & IT', 'Bengaluru'),
+('HP Enterprise', 'Enterprise IT', 'Bengaluru'),
+('L&T Technology Services', 'Engineering Services', 'Mumbai'),
+('Siemens', 'Industrial Tech', 'Mumbai'),
+('Bosch', 'Automotive & Tech', 'Bengaluru'),
+('General Electric (GE)', 'Industrial Conglomerate', 'Bengaluru'),
+('Schneider Electric', 'Energy & Automation', 'Gurugram'),
+('Reliance Jio', 'Telecom & Digital', 'Mumbai'),
+('Airtel', 'Telecom', 'Gurugram'),
+('Thoughtworks', 'Software Consulting', 'Bengaluru'),
+('Persistent Systems', 'Software Product Eng', 'Pune'),
+('Cyient', 'Engineering Solutions', 'Hyderabad'),
+('KPIT Technologies', 'Automotive Software', 'Pune');
+
+-- Populate COMPANY profiles
+INSERT INTO COMPANY (company_id, user_id, company_name, industry, contact_email, location)
+SELECT 
+    cl.id,
+    cl.id + 500,
+    cl.name,
+    cl.industry,
+    'recruiter' || cl.id || '@corporate.com',
+    cl.location
+FROM company_list cl;
+
+DROP TABLE company_list;
+
 
 -- ===================================================
--- JOBS (60+ Job Openings)
+-- 4. SEED PLACEMENT DRIVES & APPLICATIONS
 -- ===================================================
-INSERT INTO JOB (company_id, job_title, job_description, package_lpa, drive_date) VALUES 
-(1, 'System Engineer', 'TCS Ninja drive for entry level developers.', 3.6, '2026-10-15'),
-(1, 'Digital Software Engineer', 'TCS Digital high performance role.', 7.0, '2026-10-18'),
-(2, 'Software Engineer', 'Core engineering team at Microsoft.', 14.0, '2026-11-01'),
-(3, 'Programmer Analyst', 'Cognizant GenC developer role.', 4.2, '2026-10-20'),
-(4, 'SDE-1', 'Amazon AWS and Retail platform development.', 18.5, '2026-11-10'),
-(5, 'Project Engineer', 'Wipro Turbo and Elite hiring.', 3.8, '2026-10-25'),
-(6, 'Risk Analyst', 'Financial advisory and risk management.', 7.5, '2026-11-05'),
-(7, 'Systems Engineer', 'Infosys Specialist Programmer and SE role.', 4.0, '2026-10-22'),
-(8, 'Advanced App Engineering Associate', 'Accenture technology delivery team.', 4.5, '2026-10-28'),
-(9, 'Software Analyst', 'Capgemini cloud technology domain.', 4.2, '2026-11-02'),
-(10, 'Associate System Engineer', 'IBM client innovation centers.', 4.8, '2026-11-08'),
-(11, 'Software Engineer', 'Google University Graduate hiring.', 22.0, '2026-11-15'),
-(12, 'Member of Technical Staff', 'Oracle Cloud Infrastructure (OCI).', 12.0, '2026-11-12'),
-(13, 'Developer Associate', 'SAP Labs core ERP products.', 9.5, '2026-11-14'),
-(14, 'Software Associate', 'Digital transformation team.', 3.6, '2026-10-30'),
-(15, 'Software Engineer', 'Application development unit.', 3.8, '2026-11-04'),
-(16, 'Graduate Trainee', 'Cloud and infrastructure management.', 4.2, '2026-11-06'),
-(17, 'Network Engineer', 'Cisco TAC and networking infrastructure.', 11.0, '2026-11-18'),
-(18, 'SoC Design Engineer', 'Intel hardware design team.', 13.5, '2026-11-20'),
-(19, 'Silicon Design Engineer', 'AMD processor architectures.', 14.0, '2026-11-22'),
-(20, 'System Software Engineer', 'NVIDIA GPU driver engineering.', 16.0, '2026-11-25'),
-(21, 'Product Software Engineer', 'Adobe Creative Cloud development.', 17.5, '2026-11-16'),
-(22, 'AMTS', 'Salesforce platform engineering.', 15.0, '2026-11-19'),
-(23, 'Graduate Software Engineer', 'Jira and Confluence core products.', 18.0, '2026-11-21'),
-(24, 'Software Engineer - Mobility', 'Uber Rider and Driver engineering.', 20.0, '2026-11-24'),
-(25, 'SDE-1', 'Flipkart supply chain tech.', 16.5, '2026-11-26'),
-(26, 'Software Engineer', 'Paytm payment gateway unit.', 9.0, '2026-11-03'),
-(27, 'SDE-1', 'Swiggy food delivery tech stack.', 12.5, '2026-11-07'),
-(28, 'Software Engineer', 'Zomato backend infrastructure.', 11.0, '2026-11-09'),
-(29, 'Software Engineer', 'PhonePe UPI payments engineering.', 14.0, '2026-11-11'),
-(30, 'Backend Engineer', 'CRED high-scale transaction systems.', 15.5, '2026-11-13'),
-(31, 'Engineering Associate', 'Goldman Sachs global technology.', 21.0, '2026-11-27'),
-(32, 'Software Analyst', 'JP Morgan Corporate and Investment Bank.', 13.0, '2026-11-28'),
-(33, 'Technology Associate', 'Morgan Stanley institutional tech.', 12.5, '2026-11-29'),
-(34, 'Graduate Developer', 'Barclays digital banking.', 10.0, '2026-12-01'),
-(35, 'Software Engineer', 'HSBC technology operations.', 8.5, '2026-12-02'),
-(36, 'Technology Analyst', 'Deutsche Bank global technology.', 11.5, '2026-12-03'),
-(37, 'Software Developer', 'Societe Generale investment banking tech.', 9.0, '2026-12-04'),
-(38, 'Technology Consultant', 'EY Risk & Advisory.', 6.5, '2026-12-05'),
-(39, 'Technology Associate', 'PwC digital consulting.', 6.0, '2026-12-06'),
-(40, 'Advisory Associate', 'KPMG IT advisory.', 6.2, '2026-12-07'),
-(41, 'Research Engineer', 'Samsung R&D Institute AI team.', 12.0, '2026-12-08'),
-(42, 'Interim Engineering Trainee', 'Qualcomm Snapdragon chipsets.', 14.5, '2026-12-09'),
-(43, 'Analog Design Engineer', 'Texas Instruments embedded systems.', 13.0, '2026-12-10'),
-(44, 'Embedded Software Engineer', 'Bosch automotive IoT.', 7.0, '2026-12-11'),
-(45, 'Graduate Trainee Engineer', 'Siemens factory automation.', 6.5, '2026-12-12'),
-(46, 'Edison Engineer', 'GE Global Research Center.', 10.5, '2026-12-13'),
-(47, 'Graduate Engineer Trainee', 'L&T Construction and Hydrocarbon.', 5.5, '2026-12-14'),
-(48, 'Graduate Engineer Trainee', 'Jio 5G network rollout.', 5.0, '2026-12-15'),
-(49, 'Young Leader Trainee', 'Airtel Digital product development.', 6.5, '2026-12-16'),
-(50, 'Graduate Engineer Trainee', 'Tata Motors EV design team.', 6.0, '2026-12-17'),
-(51, 'GET - R&D', 'Mahindra automotive engineering.', 5.8, '2026-12-18'),
-(52, 'Graduate Engineer Trainee', 'Bajaj Auto product development.', 6.2, '2026-12-19');
 
--- ===================================================
--- JOB ELIGIBILITY REQUIREMENTS
--- ===================================================
-INSERT INTO JOB_ELIGIBILITY (job_id, min_cgpa, max_backlogs_allowed) VALUES 
-(1, 6.5, 1), (2, 7.5, 0), (3, 8.0, 0), (4, 6.0, 1), (5, 8.5, 0), (6, 6.0, 1), (7, 7.0, 0), (8, 6.0, 1), (9, 6.5, 1), (10, 6.0, 1),
-(11, 6.5, 0), (12, 8.5, 0), (13, 7.5, 0), (14, 7.0, 0), (15, 6.0, 1), (16, 6.0, 1), (17, 6.5, 1), (18, 7.5, 0), (19, 8.0, 0), (20, 8.0, 0),
-(21, 8.5, 0), (22, 8.5, 0), (23, 8.0, 0), (24, 8.5, 0), (25, 8.5, 0), (26, 8.0, 0), (27, 7.0, 0), (28, 7.5, 0), (29, 7.5, 0), (30, 8.0, 0),
-(31, 8.0, 0), (32, 8.5, 0), (33, 7.5, 0), (34, 7.5, 0), (35, 7.0, 0), (36, 6.5, 1), (37, 7.0, 0), (38, 7.0, 0), (39, 6.5, 1), (40, 6.0, 1),
-(41, 6.0, 1), (42, 7.5, 0), (43, 8.0, 0), (44, 7.5, 0), (45, 6.5, 1), (46, 6.5, 1), (47, 7.0, 0), (48, 6.0, 1), (49, 6.0, 1), (50, 6.5, 1),
-(51, 6.5, 1), (52, 6.5, 1);
+INSERT INTO JOB (job_id, company_id, job_title, job_description, package_lpa, drive_date) VALUES 
+(1, 1, 'System Engineer (Ninja / Digital)', 'Full-time software development and maintenance role.', 4.5, '2026-10-15'),
+(2, 2, 'Programmer Analyst', 'Entry-level full stack application developer role.', 4.2, '2026-10-18'),
+(3, 3, 'Specialist Programmer', 'Core Java, Python, and Microservices developer.', 9.5, '2026-10-22'),
+(4, 4, 'Project Engineer', 'Cloud infrastructure and systems management role.', 3.6, '2026-10-25'),
+(5, 5, 'Software Development Engineer (SDE-1)', 'Core software engineering role on cloud services.', 18.0, '2026-11-01'),
+(6, 6, 'Associate Software Engineer', 'Scalable distributed backend services engineering.', 22.0, '2026-11-05'),
+(7, 7, 'SDE - Cloud & Systems', 'AWS infrastructure engineering and development.', 16.5, '2026-11-10'),
+(8, 8, 'Advanced App Engineering Analyst', 'Enterprise application modernization role.', 5.4, '2026-11-12'),
+(9, 9, 'Senior Software Analyst', 'Java Spring Boot and Angular application dev.', 4.8, '2026-11-15'),
+(10, 10, 'Associate Technical Consultant', 'Cloud solution architecture and AI integrations.', 7.2, '2026-11-20');
 
--- ===================================================
--- APPLICATIONS & OFFERS
--- ===================================================
-INSERT INTO APPLICATION (student_id, job_id, status) VALUES 
-(1, 1, 'OFFERED'), (2, 1, 'OFFERED'), (4, 3, 'OFFERED'), (5, 3, 'OFFERED'), (7, 3, 'OFFERED'),
-(9, 5, 'OFFERED'), (12, 5, 'OFFERED'), (13, 4, 'OFFERED'), (16, 7, 'OFFERED'), (17, 2, 'OFFERED'),
-(21, 5, 'OFFERED'), (26, 11, 'OFFERED'), (34, 12, 'OFFERED'), (45, 11, 'OFFERED'), (58, 21, 'OFFERED'),
-(66, 12, 'OFFERED'), (79, 31, 'OFFERED'), (85, 31, 'OFFERED'), (92, 22, 'OFFERED'), (100, 24, 'OFFERED'),
-(105, 11, 'OFFERED'), (1, 3, 'SHORTLISTED'), (3, 1, 'APPLIED'), (8, 4, 'SHORTLISTED'), (11, 6, 'APPLIED'),
-(15, 4, 'APPLIED'), (19, 6, 'SHORTLISTED'), (20, 7, 'SHORTLISTED'), (22, 6, 'APPLIED'), (30, 1, 'REJECTED');
-
-INSERT INTO OFFER (app_id, offer_letter_code, offered_salary_lpa, joining_date) VALUES 
-(1, 'OFF-TCS-001', 3.6, '2027-06-01'), (2, 'OFF-TCS-002', 3.6, '2027-06-01'),
-(3, 'OFF-MSFT-001', 14.0, '2027-07-15'), (4, 'OFF-MSFT-002', 14.0, '2027-07-15'),
-(5, 'OFF-MSFT-003', 14.0, '2027-07-15'), (6, 'OFF-AMZN-001', 18.5, '2027-08-01'),
-(7, 'OFF-AMZN-002', 18.5, '2027-08-01'), (8, 'OFF-CTS-001', 4.2, '2027-06-15'),
-(9, 'OFF-DEL-001', 7.5, '2027-07-01'), (10, 'OFF-TCSD-001', 7.0, '2027-06-01'),
-(11, 'OFF-AMZN-003', 18.5, '2027-08-01'), (12, 'OFF-GGL-001', 22.0, '2027-08-15'),
-(13, 'OFF-ORCL-001', 12.0, '2027-07-01'), (14, 'OFF-GGL-002', 22.0, '2027-08-15'),
-(15, 'OFF-ADBE-001', 17.5, '2027-07-15'), (16, 'OFF-ORCL-002', 12.0, '2027-07-01'),
-(17, 'OFF-GS-001', 21.0, '2027-08-01'), (18, 'OFF-GS-002', 21.0, '2027-08-01'),
-(19, 'OFF-SF-001', 15.0, '2027-07-15'), (20, 'OFF-UBER-001', 20.0, '2027-08-01'),
-(21, 'OFF-GGL-003', 22.0, '2027-08-15');
+-- Eligibility Criteria
+INSERT INTO JOB_ELIGIBILITY (eligibility_id, job_id, min_cgpa, max_backlogs_allowed) VALUES 
+(1, 1, 6.0, 1), 
+(2, 2, 6.0, 0), 
+(3, 3, 7.5, 0), 
+(4, 4, 6.0, 1), 
+(5, 5, 8.0, 0),
+(6, 6, 8.5, 0), 
+(7, 7, 8.0, 0), 
+(8, 8, 6.5, 0), 
+(9, 9, 6.0, 0), 
+(10, 10, 7.0, 0);
